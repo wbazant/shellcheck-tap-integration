@@ -12,12 +12,12 @@ while(<>){
     print "Bail out! Input not in GCC format: $_\n";
     exit(1);
   };
-  # First line of input
+  # Set the program state on the first line of input
   unless ($current_file){
      $current_file = $file;
      redo;
   }
-  # New file
+  # Begin output for next file
   if($current_file ne $file){
      &emit_current;
      &reset_current($file);
