@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# Usage: shellcheck -f gcc ... | shellcheck-gcc-to-tap.pl
 use strict;
 use warnings;
 my @files;
