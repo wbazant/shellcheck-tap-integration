@@ -1,6 +1,33 @@
-## Shellcheck TAP integration
+# Shellcheck TAP integration
 
-A semi-opinionated script to make [Shellcheck](https://github.com/koalaman/shellcheck) output a stream compliant with[ Test anything protocol](http://testanything.org/)
+Make [Shellcheck](https://github.com/koalaman/shellcheck) output a stream compliant with[ Test anything protocol](http://testanything.org/)
+
+## `shellcheck-gcc-to-tap.pl`
+
+The better one probably, works on a stream. Requirements: system Perl on any OS.
+
+### Usage example
+
+```
+shellcheck -f gcc /var/tmp/test.sh /var/tmp/test-2.sh | /var/tmp/shellcheck-gcc-to-tap.pl
+# /var/tmp/test.sh:6:1: error: Couldn't parse this for loop. Fix to allow more checks. [SC1073]
+# /var/tmp/test.sh:7:1: error: Expected 'do'. [SC1058]
+# /var/tmp/test.sh:7:1: error: Expected 'do'. Fix any mentioned problems and try again. [SC1072]
+not ok 1 - /var/tmp/test.sh
+# /var/tmp/test-2.sh:2:7: error: Double quote array expansions to avoid re-splitting elements. [SC2068]
+# /var/tmp/test-2.sh:3:10: warning: This apostrophe terminated the single quoted string! [SC1011]
+# /var/tmp/test-2.sh:3:11: note: This word is outside of quotes. Did you intend to 'nest '"'single quotes'"' instead'?  [SC2026]
+# /var/tmp/test-2.sh:3:31: warning: Did you forget to close this single quoted string? [SC1078]
+# /var/tmp/test-2.sh:4:6: note: This is actually an end quote, but due to next char it looks suspect. [SC1079]
+# /var/tmp/test-2.sh:5:6: note: Expressions don't expand in single quotes, use double quotes for that. [SC2016]
+# /var/tmp/test-2.sh:6:17: warning: Use single quotes, otherwise this expands now rather than when signalled. [SC2064]
+not ok 2 - /var/tmp/test-2.sh
+1..2
+```
+
+## run-shellcheck-on-files.sh
+
+The previous idea how to do this.
 
 ### Example output
 ```
