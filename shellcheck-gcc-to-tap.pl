@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 my @files;
-my $current_file = "";
-my $current_file_failures = 0;
+my $current_file;
+my $current_file_failures;
 while(<>){
   chomp;
   next unless $_;
@@ -15,13 +15,13 @@ while(<>){
   };
   # Set the program state on the first line of input
   unless ($current_file){
-     $current_file = $file;
+     &set_current_file($file);
      redo;
   }
   # Begin output for next file
   if($current_file ne $file){
      &emit_current;
-     &reset_current($file);
+     &set_current_file($file);
   }
   print "# $_\n";
   $current_file_failures++ if $severity ne "note";
@@ -30,7 +30,7 @@ while(<>){
 &emit_current if $current_file;
 printf("1..%s\n", scalar @files);
 
-sub reset_current {
+sub set_current_file {
   $current_file=$_[0];
   $current_file_failures=0;
 }
